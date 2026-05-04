@@ -1,0 +1,35 @@
+version: "3.8"
+
+services:
+  server:
+    image: cloudedit-server:latest
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: cloudedit-server
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+    networks:
+      - CloudEdit
+
+  client:
+    image: cloudedit-client:latest
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: cloudedit-client
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_BACKEND_URL=http://localhost:3000
+      - VITE_PISTON_API_URL=https://emkc.org/api/v2/piston
+    depends_on:
+      - server
+    networks:
+      - CloudEdit
+
+networks:
+  CloudEdit:
+    driver: bridge
