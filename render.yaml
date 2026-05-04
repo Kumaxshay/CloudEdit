@@ -1,6 +1,7 @@
 services:
   - type: web
-    name: code-sync
+    name: cloudedit
+    plan: free
     env: node
     buildCommand: npm run build
     startCommand: npm start
